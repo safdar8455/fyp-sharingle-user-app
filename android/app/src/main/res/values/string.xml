@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+<string name="app_name">sharingle_user_app</string>
+<string name="facebook_app_id">242434614952537</string>
+<string name="fb_login_protocol_scheme">fb242434614952537</string>
+<string name="facebook_client_token">961adfa277881d7ed4e24839ab658ed4</string>
+</resources>

@@ -17,21 +17,24 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for ios - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,23 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAM7fwajm56uqWhsvSH-5D2_e45YEL_-VA',
-    appId: '1:808518407186:web:4fa0852150a91805aa74cb',
-    messagingSenderId: '808518407186',
-    projectId: 'fyp-sharingle-user-app',
-    authDomain: 'fyp-sharingle-user-app.firebaseapp.com',
-    storageBucket: 'fyp-sharingle-user-app.appspot.com',
-    measurementId: 'G-XYXKQNV8LV',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyD0hvMlKioW1PsAGVvemI8s3hSW9ZaO1a0',
-    appId: '1:808518407186:ios:79416fc4a4f007aaaa74cb',
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyAhBGLOq98nZoPlNZjJdMzliG4O2FoYwLE',
+    appId: '1:808518407186:android:1430f7abcb3121b4aa74cb',
     messagingSenderId: '808518407186',
     projectId: 'fyp-sharingle-user-app',
     storageBucket: 'fyp-sharingle-user-app.appspot.com',
-    iosClientId: '808518407186-qfs9dr5jli7vtoschl2cu8le12js99gg.apps.googleusercontent.com',
-    iosBundleId: 'com.example.sharingleUserApp.RunnerTests',
   );
 }

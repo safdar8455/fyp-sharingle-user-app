@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "808518407186",
+    "project_id": "fyp-sharingle-user-app",
+    "storage_bucket": "fyp-sharingle-user-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808518407186:android:1430f7abcb3121b4aa74cb",
+        "android_client_info": {
+          "package_name": "com.example.sharingle_user_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808518407186-bege2lli2nvag16eoodnannsnu2lrldt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhBGLOq98nZoPlNZjJdMzliG4O2FoYwLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808518407186-5f6ul15a575qhp74so7k9j8pi9crn11b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "808518407186-qfs9dr5jli7vtoschl2cu8le12js99gg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sharingleUserApp.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
