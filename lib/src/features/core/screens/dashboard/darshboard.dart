@@ -5,9 +5,10 @@ import 'package:sharingle_user_app/src/constants/text_strings.dart';
 import 'package:sharingle_user_app/src/features/authentication/models/user_model.dart';
 import 'package:sharingle_user_app/src/features/core/controllers/profile_controller.dart';
 import 'package:sharingle_user_app/src/features/core/screens/dashboard/widgets/dashboard_appbar.dart';
-import 'package:sharingle_user_app/src/features/core/screens/dashboard/widgets/dashboard_banner_widget.dart';
 import 'package:sharingle_user_app/src/features/core/screens/dashboard/widgets/dashboard_categories_widgets.dart';
+import 'package:sharingle_user_app/src/features/core/screens/dashboard/widgets/dashboard_enable_location_widget.dart';
 import 'package:sharingle_user_app/src/features/core/screens/dashboard/widgets/dashboard_search_box_widget.dart';
+import 'package:sharingle_user_app/src/features/core/screens/dashboard/widgets/dashboard_top_banner.dart';
 import 'package:sharingle_user_app/src/features/core/screens/dashboard/widgets/dashbord_top_deals_widget.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -33,23 +34,24 @@ class DashboardScreen extends StatelessWidget {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Heading
                           Text("Hey, ${userData.fullName}.",
                               style: textTheme.bodyLarge),
-                          Text(RsDashboardHeading,
-                              style: textTheme.displayLarge),
-                          const SizedBox(height: RsDashboardPadding),
+                          SizedBox(height: RsDashboardPadding - 10),
 
                           //Search Box
                           DashboardSearchBox(),
                           SizedBox(height: RsDashboardPadding),
 
-                          //Categories
-                          DashboardCategories(),
+                          // TopBanner
+                          DashboardTopBannerWidget(),
                           SizedBox(height: RsDashboardPadding),
 
-                          //Banner Section
-                          DashboardBanner(),
+                          // Enable Location card
+                          EnableLocationWidget(),
+                          SizedBox(height: RsDashboardPadding),
+
+                          //Categories
+                          DashboardCategories(),
                           SizedBox(height: RsDashboardPadding),
 
                           //Top Deals

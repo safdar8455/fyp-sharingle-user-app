@@ -75,6 +75,11 @@ const String RsBannerCar = "assets/images/dashboard/banner-car.png";
 const String RsDeals01 = "assets/images/dashboard/dash-deal-01.jpg";
 const String RsDeals02 = "assets/images/dashboard/dash-deal-02.jpg";
 const String RsDeals03 = "assets/images/dashboard/dash-deal-03.jpg";
+const String RsBanner01 = "assets/images/dashboard/banner-01.png";
+const String RsBanner02 = "assets/images/dashboard/banner-02.png";
+const String RsBanner03 = "assets/images/dashboard/banner-03.png";
+const String RsBanner04 = "assets/images/dashboard/banner-04.png";
+const String RsBanner05 = "assets/images/dashboard/banner-05.png";
 const String RsUserProfileMale =
     "https://firebasestorage.googleapis.com/v0/b/fyp-sharingle-user-app.appspot.com/o/profileimages%2Fprofile_male.png?alt=media&token=7973593f-7a03-4869-95d8-f4bb01def943";
 const String RsUserProfileFemale =

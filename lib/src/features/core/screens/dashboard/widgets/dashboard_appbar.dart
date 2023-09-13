@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sharingle_user_app/src/constants/image_strings.dart';
 import 'package:sharingle_user_app/src/features/authentication/models/user_model.dart';
 import 'package:sharingle_user_app/src/features/core/controllers/profile_controller.dart';
+import 'package:sharingle_user_app/src/features/core/screens/dashboard/widgets/profile-top-sheet/profile_topsheet.dart';
 import 'package:sharingle_user_app/src/features/core/screens/profile/profile_screen.dart';
 
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -41,7 +42,9 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                   backgroundColor: Colors.transparent,
                   actions: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        ProfileTopSheet.profileTopSheet(context);
+                      },
                       padding: EdgeInsets.all(0.0),
                       icon: CircleAvatar(
                         backgroundImage: NetworkImage(
@@ -51,15 +54,6 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       ),
                     ),
-
-                    // Container(
-                    //   margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(25.0),
-                    //     color: isDarkMode ? RsCardBgDarkColor : RsCardBgLightColor,
-                    //   ),
-                    //   child:
-                    // ),
                   ],
                 );
               } else if (snapshot.hasError) {

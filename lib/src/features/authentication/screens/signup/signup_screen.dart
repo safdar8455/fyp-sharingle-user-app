@@ -32,6 +32,14 @@ class SignUpScreen extends StatelessWidget {
                   subTitle: RsSignUpSubTitle,
                 ),
                 SignUpFormWidget(),
+                Row(children: [
+                  Expanded(child: Divider(color: Colors.grey)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                    child: Text('OR', style: TextStyle(fontSize: 14)),
+                  ),
+                  Expanded(child: Divider(color: Colors.grey)),
+                ]),
                 SocialFooter(
                     footerLineOnPress: () {
                       Get.offAll(() => LoginScreen());

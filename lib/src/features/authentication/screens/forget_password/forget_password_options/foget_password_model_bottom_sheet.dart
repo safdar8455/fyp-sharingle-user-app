@@ -38,15 +38,6 @@ class ForgetPasswordScreen {
               },
             ),
             SizedBox(height: RsDefaultSize - 10.0),
-            // ForgetPoasswordButtonWidget(
-            //   btnIcon: Icons.mobile_friendly_rounded,
-            //   title: RsPhoneNo,
-            //   subTitle: RsResetViaPhone,
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //     Get.to(() => const ForgetPasswordPhoneScreen());
-            //   },
-            // ),
           ],
         ),
       ),

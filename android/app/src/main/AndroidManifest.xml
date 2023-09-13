@@ -7,7 +7,7 @@
 
 
     <application
-        android:label="sharingle_user_app"
+        android:label="SHARINGLE"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

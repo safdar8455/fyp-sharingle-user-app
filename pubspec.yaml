@@ -72,11 +72,23 @@ dependencies:
   uuid: ^4.0.0
   intl: ^0.18.1
   image_cropper: ^5.0.0
+  carousel_slider: ^4.2.1
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo/icon_logo.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/logo/logo_foreground.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  
+
 
 flutter_native_splash:
   color: "#E3F2FD"
