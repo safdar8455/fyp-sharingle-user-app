@@ -28,7 +28,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                 UserModel userData = snapshot.data as UserModel;
                 return AppBar(
                   leading: GestureDetector(
-                    onTap: () => Get.offAll(() => const ProfileScreen()),
+                    onTap: () => Get.to(() => const ProfileScreen()),
                     child: Icon(Icons.menu),
                   ),
                   title: Image(

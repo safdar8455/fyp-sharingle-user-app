@@ -18,8 +18,8 @@ class EnableLocationWidget extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: isDarkMode
-                ? RsWhiteColor.withOpacity(0.2)
-                : RsDarkColor.withOpacity(0.2), // Shadow color
+                ? RsWhiteColor.withOpacity(0.1)
+                : RsDarkColor.withOpacity(0.1), // Shadow color
             spreadRadius: 2, // Spread radius
             blurRadius: 20, // Blur radius
             offset: Offset(0, 2), // Offset in x and y

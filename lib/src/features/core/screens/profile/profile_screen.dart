@@ -24,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Get.to(() => DashboardScreen()),
+          onPressed: () => Get.to(() => const DashboardScreen()),
           icon: Icon(LineAwesomeIcons.angle_left),
         ),
         title: Text(

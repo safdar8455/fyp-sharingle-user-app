@@ -5,6 +5,7 @@ import 'package:sharingle_user_app/src/constants/colors.dart';
 import 'package:sharingle_user_app/src/constants/sizes.dart';
 import 'package:sharingle_user_app/src/features/core/controllers/top_banner_controller.dart';
 import 'package:sharingle_user_app/src/features/core/models/dashboard/dashboard_top_banner.dart';
+import 'package:sharingle_user_app/src/features/core/screens/pickup-location/pickup_location_screen.dart';
 
 class DashboardTopBannerWidget extends StatelessWidget {
   const DashboardTopBannerWidget({
@@ -24,7 +25,7 @@ class DashboardTopBannerWidget extends StatelessWidget {
         Stack(
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () => Get.to(() => const PickupLocationScreen()),
               child: Container(
                 decoration: BoxDecoration(
                   boxShadow: [

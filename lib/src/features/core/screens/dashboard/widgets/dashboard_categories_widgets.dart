@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sharingle_user_app/src/constants/colors.dart';
 import 'package:sharingle_user_app/src/features/core/models/dashboard/dashboard_category_model.dart';
+import 'package:sharingle_user_app/src/features/core/screens/pickup-location/pickup_location_screen.dart';
 
 class DashboardCategories extends StatelessWidget {
   const DashboardCategories({
@@ -19,39 +21,44 @@ class DashboardCategories extends StatelessWidget {
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemCount: list.length,
-        itemBuilder: (context, index) => SizedBox(
-          width: 170,
-          height: 45,
-          child: Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(2.0),
-                width: 45,
-                height: 45,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: isDarkMode ? secondaryColor : primaryColor,
+        itemBuilder: (context, index) => GestureDetector(
+          onTap: () {
+            Get.to(() => const PickupLocationScreen());
+          },
+          child: SizedBox(
+            width: 170,
+            height: 45,
+            child: Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(2.0),
+                  width: 45,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: isDarkMode ? secondaryColor : primaryColor,
+                  ),
+                  child: Center(
+                    child: Image(image: AssetImage(list[index].categIconImage)),
+                  ),
                 ),
-                child: Center(
-                  child: Image(image: AssetImage(list[index].categIconImage)),
+                SizedBox(width: 10),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(list[index].categTitle,
+                          style: textTheme.titleLarge,
+                          overflow: TextOverflow.ellipsis),
+                      Text(list[index].categSubTite,
+                          style: textTheme.bodyLarge,
+                          overflow: TextOverflow.ellipsis),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(width: 10),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(list[index].categTitle,
-                        style: textTheme.titleLarge,
-                        overflow: TextOverflow.ellipsis),
-                    Text(list[index].categSubTite,
-                        style: textTheme.bodyLarge,
-                        overflow: TextOverflow.ellipsis),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
