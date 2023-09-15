@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sharingle_user_app/src/repository/authentication_repository/authentication_repository.dart';
 import 'firebase_options.dart';
@@ -28,6 +29,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: isDarkMode? Color(0xFF303030): Color(0xFFE5E5E5),
+      statusBarBrightness: isDarkMode? Brightness.light :Brightness.dark,
+      statusBarIconBrightness: isDarkMode? Brightness.light :Brightness.dark,
+    ));
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.leftToRightWithFade,

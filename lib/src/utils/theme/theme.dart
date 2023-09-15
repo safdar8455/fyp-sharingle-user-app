@@ -15,6 +15,7 @@ class RsAppTheme {
     inputDecorationTheme: RsTextFormFieldTheme.lightInputDecorationTheme,
     iconTheme: RsIconTheme.lightIconThemeData,
     appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.black)),
+    
   );
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
