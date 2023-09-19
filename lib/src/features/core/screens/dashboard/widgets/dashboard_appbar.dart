@@ -43,7 +43,8 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                   actions: [
                     IconButton(
                       onPressed: () {
-                        ProfileTopSheet.profileTopSheet(context);
+                        ProfileTopSheet(onPressHome: () => Get.back())
+                            .profileTopSheet(context);
                       },
                       padding: EdgeInsets.all(0.0),
                       icon: CircleAvatar(

@@ -59,7 +59,7 @@ class PickupLocationScreen extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {},
-                      child: Text("Trun o location services"),
+                      child: Text("Trun on location services"),
                       style: ElevatedButton.styleFrom(
                         shape: StadiumBorder(),
                         elevation: 0,

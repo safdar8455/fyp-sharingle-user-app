@@ -5,6 +5,7 @@ import 'package:sharingle_user_app/src/common_widgets/buttons/primary-button/rs_
 import 'package:sharingle_user_app/src/constants/sizes.dart';
 import 'package:sharingle_user_app/src/constants/text_strings.dart';
 import 'package:sharingle_user_app/src/features/authentication/controllers/phone_controller.dart';
+import 'package:sharingle_user_app/src/repository/authentication_repository/authentication_repository.dart';
 
 class PhoneNoFormWidget extends StatelessWidget {
   const PhoneNoFormWidget({
@@ -43,6 +44,11 @@ class PhoneNoFormWidget extends StatelessWidget {
                           ? () {}
                           : () => controller.phoneAuthentication(phoneNo),
                 )),
+            SizedBox(height: 60),
+            Center(
+                child: TextButton(
+                    onPressed: () => AuthenticationRepository.instance.logout(),
+                    child: Text("Go Back"))),
           ],
         ),
       ),

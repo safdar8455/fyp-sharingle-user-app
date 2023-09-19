@@ -7,7 +7,11 @@ import 'package:sharingle_user_app/src/constants/sizes.dart';
 import 'package:sharingle_user_app/src/features/core/screens/profile/update_profile_screen.dart';
 
 class ProfileTopSheet {
-  static Future<void> profileTopSheet(BuildContext context) {
+  ProfileTopSheet({required this.onPressHome});
+
+  final VoidCallback onPressHome;
+
+  Future<void> profileTopSheet(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isDarkMode = mediaQuery.platformBrightness == Brightness.dark;
     final size = mediaQuery.size;
@@ -73,7 +77,7 @@ class ProfileTopSheet {
                             TopSheetOption(
                               title: "Home",
                               iconData: LineAwesomeIcons.home,
-                              onPress: () => Get.back(),
+                              onPress: onPressHome,
                             ),
                             TopSheetOption(
                               title: "Help",

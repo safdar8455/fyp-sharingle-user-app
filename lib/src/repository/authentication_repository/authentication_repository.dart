@@ -38,9 +38,15 @@ class AuthenticationRepository extends GetxController {
   }
 
   setInitialScreen(User? user) async {
-    user == null
-        ? Get.offAll(() => SplashScreen())
-        : Get.offAll(() => const DashboardScreen());
+    if (user == null) {
+      Get.offAll(() => SplashScreen());
+    } else {
+      if (user.phoneNumber != null) {
+        Get.offAll(() => const DashboardScreen());
+      } else {
+        Get.offAll(() => const PhoneScreen());
+      }
+    }
   }
 
   // setInitialScreen(User? user) async {
