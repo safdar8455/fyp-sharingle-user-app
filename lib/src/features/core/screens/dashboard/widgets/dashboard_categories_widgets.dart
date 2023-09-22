@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sharingle_user_app/src/constants/colors.dart';
+import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
 import 'package:sharingle_user_app/src/features/core/models/dashboard/dashboard_category_model.dart';
+import 'package:sharingle_user_app/src/features/core/screens/map/map_screen.dart';
 import 'package:sharingle_user_app/src/features/core/screens/pickup-location/pickup_location_screen.dart';
 
 class DashboardCategories extends StatelessWidget {
@@ -11,6 +13,7 @@ class DashboardCategories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mapController = Get.put(MapScreenController());
     final isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     final textTheme = Theme.of(context).textTheme;
@@ -23,7 +26,9 @@ class DashboardCategories extends StatelessWidget {
         itemCount: list.length,
         itemBuilder: (context, index) => GestureDetector(
           onTap: () {
-            Get.to(() => const PickupLocationScreen());
+            mapController.serviceEnabled.value
+                ? Get.to(() => const MapScreen())
+                : Get.to(() => const PickupLocationScreen());
           },
           child: SizedBox(
             width: 170,

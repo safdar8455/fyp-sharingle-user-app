@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sharingle_user_app/src/constants/colors.dart';
+import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
 
 class EnableLocationWidget extends StatelessWidget {
   const EnableLocationWidget({
@@ -9,6 +11,7 @@ class EnableLocationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mapController = Get.put(MapScreenController());
     final isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Container(
@@ -54,7 +57,9 @@ class EnableLocationWidget extends StatelessWidget {
                 SizedBox(
                   height: 35,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      mapController.determinePosition();
+                    },
                     child: Text("Enable Locations"),
                     style: ElevatedButton.styleFrom(
                       padding:

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sharingle_user_app/src/constants/image_strings.dart';
 import 'package:sharingle_user_app/src/features/authentication/models/user_model.dart';
+import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
 import 'package:sharingle_user_app/src/features/core/screens/dashboard/darshboard.dart';
 // ignore_for_file: body_might_complete_normally_catch_error
 import 'package:sharingle_user_app/src/repository/authentication_repository/authentication_repository.dart';
@@ -59,10 +60,10 @@ class MoreInfoController extends GetxController {
           joinDate: joinDate,
         );
         // final auth = AuthenticationRepository.instance;
-        await UserRepository.instance
-            .createUser(user)
-            .whenComplete(() => Get.offAll(() => const DashboardScreen()))
-            .catchError((error, stackTrace) {
+        await UserRepository.instance.createUser(user).whenComplete(() {
+          MapScreenController().checkLocationPermission();
+          Get.offAll(() => const DashboardScreen());
+        }).catchError((error, stackTrace) {
           Get.snackbar("Error", "Something went wrong. Try again");
         });
       }

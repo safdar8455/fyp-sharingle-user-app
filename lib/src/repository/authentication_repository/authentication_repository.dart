@@ -7,6 +7,7 @@ import 'package:sharingle_user_app/src/features/authentication/screens/login/log
 import 'package:sharingle_user_app/src/features/authentication/screens/mail-verification/mail_verification.dart';
 import 'package:sharingle_user_app/src/features/authentication/screens/phone-number-Screen/phone_no_screen.dart';
 import 'package:sharingle_user_app/src/features/authentication/screens/splash_screen/splash_screen.dart';
+import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
 import 'package:sharingle_user_app/src/features/core/screens/dashboard/darshboard.dart';
 import 'package:sharingle_user_app/src/repository/authentication_repository/exception/firebase_exception.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -42,6 +43,7 @@ class AuthenticationRepository extends GetxController {
       Get.offAll(() => SplashScreen());
     } else {
       if (user.phoneNumber != null) {
+        MapScreenController().checkLocationPermission();
         Get.offAll(() => const DashboardScreen());
       } else {
         Get.offAll(() => const PhoneScreen());
@@ -71,6 +73,7 @@ class AuthenticationRepository extends GetxController {
   setInitialLoginScreen(User? user) {
     if (user!.emailVerified) {
       if (user.phoneNumber != null) {
+        MapScreenController().checkLocationPermission();
         Get.offAll(() => const DashboardScreen());
       } else {
         Get.offAll(() => const PhoneScreen());

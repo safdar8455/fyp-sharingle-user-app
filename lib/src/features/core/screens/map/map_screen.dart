@@ -12,22 +12,14 @@ class MapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final mapController = Get.put(MapScreenController());
     final mediaQuery = MediaQuery.of(context);
-    final isDarkMode = mediaQuery.platformBrightness == Brightness.dark;
     final size = mediaQuery.size;
 
-    DefaultAssetBundle.of(context)
-        .loadString("assets/map-theme/dark_map.json")
-        .then((value) => {
-              isDarkMode
-                  ? mapController.darkMapTheme.value = value
-                  : mapController.darkMapTheme.value = "[]",
-            });
     return Scaffold(
       body: Stack(
         children: [
           Obx(() {
             final CameraPosition cameraPosition =
-                mapController.cameraPosition.value;
+                mapController.initialCameraPosition.value;
             return Positioned(
               top: 0,
               right: 0,
@@ -38,7 +30,7 @@ class MapScreen extends StatelessWidget {
                 initialCameraPosition: cameraPosition,
                 onMapCreated: mapController.onMapCreated,
                 compassEnabled: true,
-                myLocationButtonEnabled: true,
+                myLocationEnabled: true,
                 zoomControlsEnabled: false,
                 padding:
                     EdgeInsets.only(top: 120, right: 10, left: 10, bottom: 50),

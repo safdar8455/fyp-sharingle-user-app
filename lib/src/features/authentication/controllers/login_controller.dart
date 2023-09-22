@@ -8,6 +8,7 @@ import 'package:sharingle_user_app/src/constants/text_strings.dart';
 import 'package:sharingle_user_app/src/features/authentication/models/user_model.dart';
 import 'package:sharingle_user_app/src/features/authentication/screens/more-information/more_information_screen.dart';
 import 'package:sharingle_user_app/src/features/authentication/screens/phone-number-Screen/phone_no_screen.dart';
+import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
 import 'package:sharingle_user_app/src/features/core/screens/dashboard/darshboard.dart';
 import 'package:sharingle_user_app/src/repository/authentication_repository/authentication_repository.dart';
 import 'package:sharingle_user_app/src/repository/controller/helper_controller.dart';
@@ -82,6 +83,7 @@ class LoginController extends GetxController {
       } else {
         final isProfileComplete = await getUserDetails(email);
         if (!isProfileComplete) {
+          MapScreenController().checkLocationPermission();
           Get.offAll(() => const DashboardScreen());
         } else {
           Get.offAll(() => MoreInfoScreen());
@@ -107,6 +109,7 @@ class LoginController extends GetxController {
       } else {
         final isProfileComplete = await getUserDetails(email);
         if (!isProfileComplete) {
+          MapScreenController().checkLocationPermission();
           Get.offAll(() => const DashboardScreen());
         } else {
           Get.offAll(() => MoreInfoScreen());

@@ -65,15 +65,22 @@ dependencies:
   line_awesome_flutter: ^2.0.0
 
   # -- SHARED PREFERENCE
-  shared_preferences: ^2.2.0
+  shared_preferences: ^2.2.1
 
   # -- IMAGE PICKER
   image_picker: ^1.0.4
   uuid: ^4.0.0
   intl: ^0.18.1
   image_cropper: ^5.0.0
+
+  # -- IMAGE SLIDER
   carousel_slider: ^4.2.1
+
+  # -- GOOGLE MAP
   google_maps_flutter: ^2.5.0
+  geolocator: ^10.0.1
+  http: ^1.1.0
+  connectivity: ^3.0.6
 
 
 dev_dependencies:

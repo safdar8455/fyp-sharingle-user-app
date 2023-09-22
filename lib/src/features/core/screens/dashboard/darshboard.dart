@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sharingle_user_app/src/constants/sizes.dart';
 import 'package:sharingle_user_app/src/constants/text_strings.dart';
 import 'package:sharingle_user_app/src/features/authentication/models/user_model.dart';
+import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
 import 'package:sharingle_user_app/src/features/core/controllers/profile_controller.dart';
 import 'package:sharingle_user_app/src/features/core/screens/dashboard/widgets/dashboard_appbar.dart';
 import 'package:sharingle_user_app/src/features/core/screens/dashboard/widgets/dashboard_categories_widgets.dart';
@@ -18,6 +19,7 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final controller = Get.put(ProfileController());
+    final mapController = Get.put(MapScreenController());
 
     return SafeArea(
       child: Scaffold(
@@ -47,7 +49,11 @@ class DashboardScreen extends StatelessWidget {
                           SizedBox(height: RsDashboardPadding),
 
                           // Enable Location card
-                          EnableLocationWidget(),
+                          Obx(() {
+                            return mapController.serviceEnabled.value
+                                ? Container()
+                                : EnableLocationWidget();
+                          }),
                           SizedBox(height: RsDashboardPadding),
 
                           //Categories

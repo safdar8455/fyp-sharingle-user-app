@@ -130,3 +130,6 @@ const String RsMenu5 = "Logout";
 //Update Profile Screen - Text
 const String RsDelete = "Delete";
 const String RsJoined = "Joined";
+
+//Google Map API
+const String GoogleMapAPIKey = "AIzaSyAhBGLOq98nZoPlNZjJdMzliG4O2FoYwLE";
