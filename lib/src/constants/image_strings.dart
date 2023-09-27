@@ -89,3 +89,16 @@ const String RsUserProfileOther =
 
 // -- PROFILE IMAGES
 const String RsProfileImage = "assets/images/profile/profile.jpg";
+
+// -- MAP SCREEN IMAGES
+const String RsDestinationDarkMarker =
+    "assets/images/map_images/destination_dark_marker.png";
+const String RsDestinationLightMarker =
+    "assets/images/map_images/destination_marker.png";
+const String RsPickupDarkMarker =
+    "assets/images/map_images/pickup_dark_marker.png";
+const String RsPickupLightMarker = "assets/images/map_images/pickup_marker.png";
+const String RsMovingLightMarker =
+    "assets/images/map_images/light_moving_dot.png";
+const String RsMovingDarkMarker =
+    "assets/images/map_images/dark_moving_dot.png";

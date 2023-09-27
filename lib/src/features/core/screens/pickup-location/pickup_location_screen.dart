@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sharingle_user_app/src/constants/colors.dart';
 import 'package:sharingle_user_app/src/constants/sizes.dart';
+import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
+import 'package:sharingle_user_app/src/features/core/screens/map/map_screen.dart';
 import 'package:sharingle_user_app/src/features/core/screens/pickup-location/widgets/pickup_location_appbar.dart';
 import 'package:sharingle_user_app/src/features/core/screens/pickup-location/widgets/pickup_location_searchbox.dart';
 
@@ -9,6 +12,7 @@ class PickupLocationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mapController = Get.put(MapScreenController());
     final isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
@@ -58,7 +62,11 @@ class PickupLocationScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        mapController.determinePosition().whenComplete(() {
+                          Get.to(() => const MapScreen());
+                        });
+                      },
                       child: Text("Trun on location services"),
                       style: ElevatedButton.styleFrom(
                         shape: StadiumBorder(),

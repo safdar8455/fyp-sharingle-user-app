@@ -135,6 +135,7 @@ flutter:
     - assets/images/splash_images/
     - assets/images/dashboard/
     - assets/images/profile/
+    - assets/images/map_images/
     - assets/images/forget_password/
     - assets/images/on_boarding_images/
     - assets/images/welcome_images/

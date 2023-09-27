@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sharingle_user_app/src/features/core/controllers/location-Assestent/method_request.dart';
 
 class MapScreenController extends GetxController {
   final Completer<GoogleMapController> _controller =
@@ -15,12 +14,25 @@ class MapScreenController extends GetxController {
 
   // Test if location services are enabled.
   final RxBool serviceEnabled = false.obs;
-  final initialCameraPosition = _kGooglePlex.obs;
+  final Rx<CameraPosition?> destinationPosition =
+      CameraPosition(target: LatLng(0, 0), zoom: 12.0).obs;
+  final Rx<CameraPosition?> currentPosition =
+      CameraPosition(target: LatLng(0, 0), zoom: 12.0).obs;
+
+  // Add a flag to track whether the camera is moving
+  final RxString isCameraMoving = "".obs;
+  final RxString destinationAddress = "".obs;
+  final RxBool isDestinationSelectedPointer = false.obs;
+  final RxBool isDestinationSelected = false.obs;
 
   @override
   void onInit() async {
+    // Check if location services are enabled
     serviceEnabled.value = await Geolocator.isLocationServiceEnabled();
 
+    // isDestinationSelectedPointer.value = false;
+
+    // Load the map theme based on dark mode
     DefaultAssetBundle.of(Get.context!)
         .loadString("assets/map-theme/dark_map.json")
         .then((value) {
@@ -30,6 +42,7 @@ class MapScreenController extends GetxController {
     super.onInit();
   }
 
+  // Toggle the bottom sheet expansion
   void toggleSheetExpansion() {
     isExpanded.value = !isExpanded.value;
     if (isExpanded.value) {
@@ -39,24 +52,41 @@ class MapScreenController extends GetxController {
     }
   }
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(24.8607, 67.0011),
-    zoom: 11.4746,
-  );
-
+  // Callback when the Google Map is created
   Future<void> onMapCreated(GoogleMapController controller) async {
-    if (!_controller.isCompleted) {
-      controller.setMapStyle(darkMapTheme.value);
-      _controller.complete(controller);
-
-      final CameraPosition? position = await determinePosition();
-      controller.animateCamera(CameraUpdate.newCameraPosition(position!));
-    }
+    final currentLocation = await Geolocator.isLocationServiceEnabled();
+    isDestinationSelectedPointer.value = false;
     controller.setMapStyle(darkMapTheme.value);
-    final CameraPosition? position = await determinePosition();
-    controller.animateCamera(CameraUpdate.newCameraPosition(position!));
+    isCameraMoving.value = "";
+
+    destinationPosition.value =
+        CameraPosition(target: LatLng(0, 0), zoom: 12.0);
+
+    if (!_controller.isCompleted) {
+      _controller.complete(controller);
+    }
+
+    if (currentLocation) {
+      final initialPosition = await determinePosition();
+      if (initialPosition != null) {
+        destinationPosition.value = initialPosition;
+        currentPosition.value = initialPosition;
+        controller
+            .animateCamera(CameraUpdate.newCameraPosition(initialPosition));
+      } else {
+        // Set a custom default location if determining the position fails
+        final customDefaultPosition = CameraPosition(
+          target: LatLng(24.8607, 67.0011), // Karachi coordinates
+          zoom: 12.0, // Adjust the zoom level as needed
+        );
+        destinationPosition.value = customDefaultPosition;
+        controller.animateCamera(
+            CameraUpdate.newCameraPosition(customDefaultPosition));
+      }
+    }
   }
 
+  // Check and request location permission if needed
   Future<void> checkLocationPermission() async {
     LocationPermission permission;
     permission = await Geolocator.checkPermission();
@@ -82,31 +112,27 @@ class MapScreenController extends GetxController {
     }
   }
 
+  // Determine the initial camera position based on location service status
   Future<CameraPosition?> determinePosition() async {
     try {
-      serviceEnabled.value = await Geolocator.isLocationServiceEnabled();
-
-      if (!serviceEnabled.value) {
-        final Position position = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high);
-        String address = await MethodRequest.methodRequestCoordinated(
-            Get.context!, position);
-        print("Your Address is :: " + address);
-        LatLng latLng = LatLng(position.latitude, position.longitude);
-        CameraPosition currentPosition =
-            CameraPosition(target: latLng, zoom: 5.4746);
-        return currentPosition;
-      } else {
-        final Position position = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high);
-        String address = await MethodRequest.methodRequestCoordinated(
-            Get.context!, position);
-        print("Your Address is :: " + address);
-        LatLng latLng = LatLng(position.latitude, position.longitude);
-        CameraPosition currentPosition =
-            CameraPosition(target: latLng, zoom: 16.4746);
-        return currentPosition;
+      if (!(serviceEnabled.value)) {
+        await Geolocator.isLocationServiceEnabled()
+            .whenComplete(() => serviceEnabled.value = true);
       }
+
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+
+      // String address =
+      //     await MethodRequest.methodRequestCoordinated(Get.context!, position);
+      // print("Your Address is :: " + address);
+
+      double zoomLevel = serviceEnabled.value ? 18.4746 : 5.4746;
+      LatLng latLng = LatLng(position.latitude, position.longitude);
+      CameraPosition currentPosition =
+          CameraPosition(target: latLng, zoom: zoomLevel);
+
+      return currentPosition;
     } catch (e) {
       print("Error getting current position: $e");
       return null;

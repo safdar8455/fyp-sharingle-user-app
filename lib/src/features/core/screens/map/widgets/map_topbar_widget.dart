@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sharingle_user_app/src/constants/image_strings.dart';
+import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
 import 'package:sharingle_user_app/src/features/core/screens/dashboard/darshboard.dart';
 import 'package:sharingle_user_app/src/features/core/screens/dashboard/widgets/profile-top-sheet/profile_topsheet.dart';
 
@@ -15,6 +17,7 @@ class MapScreenTopBar extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
     final size = mediaQuery.size;
     final isDarkMode = mediaQuery.platformBrightness == Brightness.dark;
+    final mapController = Get.put(MapScreenController());
     return Positioned(
       top: 0,
       left: 0,
@@ -49,7 +52,12 @@ class MapScreenTopBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 OutlinedButton(
-                  onPressed: () => Get.back(),
+                  onPressed: () {
+                    mapController.currentPosition.value =
+                        CameraPosition(target: LatLng(0, 0), zoom: 12.0);
+                    mapController.isCameraMoving.value = "";
+                    Get.back();
+                  },
                   child: Icon(LineAwesomeIcons.times),
                   style: OutlinedButton.styleFrom(
                     shape: CircleBorder(),

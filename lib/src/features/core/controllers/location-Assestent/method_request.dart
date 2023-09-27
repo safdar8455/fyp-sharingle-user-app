@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:sharingle_user_app/src/constants/text_strings.dart';
@@ -15,12 +17,13 @@ class MethodRequest {
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$GoogleMapAPIKey";
     var response = await RequestAddress.getRequest(url);
     if (response != "failed") {
-      s1 = response["results"][0]['address_components'][2]["long_name"];
+      s1 = response["results"][0]['formatted_address'];
       s2 = response["results"][0]['address_components'][3]["long_name"];
       s3 = response["results"][0]['address_components'][4]["long_name"];
-      s4 = response["results"][0]['address_components'][7]["long_name"];
 
-      desiredAddress = s1 + " , " + s2 + " , " + s3 + " , "+ s4;
+      print(response["plus_code"]["global_code"]);
+
+      desiredAddress = s1;
       // RiderAddress riderAddress = new RiderAddress();
 
       // riderAddress.latitude = position.latitude;
