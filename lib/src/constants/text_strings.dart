@@ -133,3 +133,11 @@ const String RsJoined = "Joined";
 
 //Google Map API
 const String GoogleMapAPIKey = "AIzaSyAhBGLOq98nZoPlNZjJdMzliG4O2FoYwLE";
+
+// Destination full sheet
+const String RsEnterYourDestionation = "Enter your destination";
+const String RsFullSheetTitle = "What do you want to go?";
+const String RsFullSheetSubTitle =
+    "Enter your destination in the search area above to find your location.";
+const String RsSelectLocationOnMap = "Select location on map";
+const String RsSkipDestinationStep = "Skip destination step";
