@@ -48,7 +48,7 @@ class MapScreenController extends GetxController {
     if (isExpanded.value) {
       sheetPosition.value = 1.0; // Fully expand the sheet
     } else {
-      sheetPosition.value = 0.25; // Set it back to the initial position
+      sheetPosition.value = isDestinationSelectedPointer.value ? 0.3 : 0.25;
     }
   }
 

@@ -28,13 +28,15 @@ class BottomDraggableSheet extends StatelessWidget {
             return true;
           },
           child: DraggableScrollableSheet(
-            initialChildSize:
-                mapController.sheetPosition.value.clamp(0.25, 1.0),
-            minChildSize: 0.25,
+            initialChildSize: mapController.sheetPosition.value.clamp(
+              mapController.isDestinationSelectedPointer.value? 0.3:0.25,
+              1.0,
+            ),
+            minChildSize: mapController.isDestinationSelectedPointer.value? 0.3:0.25,
             maxChildSize: 1.0,
             snap: true,
             // controller: scrollController,
-            builder: mapController.sheetPosition.value <= 0.26
+            builder: mapController.sheetPosition.value <= 0.31
                 ? (BuildContext context, ScrollController scrollController) {
                     return SingleChildScrollView(
                       controller: scrollController,

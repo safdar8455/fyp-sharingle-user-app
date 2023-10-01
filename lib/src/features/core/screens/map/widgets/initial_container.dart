@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sharingle_user_app/src/constants/colors.dart';
 import 'package:sharingle_user_app/src/constants/sizes.dart';
+import 'package:sharingle_user_app/src/constants/text_strings.dart';
 import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
 
 class InitialContainer extends StatelessWidget {
@@ -83,40 +84,60 @@ class SelectedDestinationAddress extends StatelessWidget {
     final mapController = Get.put(MapScreenController());
     return Obx(
       () => Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.6),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(Icons.location_on),
-            ),
-            SizedBox(width: 10),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Near ${mapController.destinationAddress.value}",
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.6),
+                    shape: BoxShape.circle,
                   ),
-                  SizedBox(height: 5),
-                  Text(
-                    mapController.destinationAddress.value,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodySmall,
+                  child: Icon(Icons.location_on),
+                ),
+                SizedBox(width: 10),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Near ${mapController.destinationAddress.value}",
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        mapController.destinationAddress.value,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
                   ),
-                ],
+                ),
+                SizedBox(width: 10),
+                IconButton(
+                    onPressed: () {}, icon: Icon(LineAwesomeIcons.heart)),
+              ],
+            ),
+            SizedBox(height: 20),
+            
+            // Confirm dropoff button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Text(RsConfirmdropoff),
+                style: ElevatedButton.styleFrom(
+                  shape: StadiumBorder(),
+                ),
               ),
             ),
-            SizedBox(width: 10),
-            IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.heart)),
           ],
         ),
       ),
@@ -169,7 +190,7 @@ class SelectDestinationBox extends StatelessWidget {
                   color: isDarkMode ? Colors.grey.shade300 : Colors.black54,
                 ),
                 SizedBox(width: 10),
-                Text("Enter your destination",
+                Text(RsEnterYourDestionation,
                     style: TextStyle(color: Colors.grey)),
               ],
             ),

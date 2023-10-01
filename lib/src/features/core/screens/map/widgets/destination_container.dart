@@ -99,7 +99,9 @@ class DestinationContainer extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        mapController.toggleSheetExpansion();
+                      },
                       child: Text(RsSelectLocationOnMap),
                       style: ElevatedButton.styleFrom(
                         shape: StadiumBorder(),

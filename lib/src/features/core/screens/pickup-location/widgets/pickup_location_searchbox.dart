@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sharingle_user_app/src/constants/colors.dart';
-import 'package:sharingle_user_app/src/features/core/screens/map/map_screen.dart';
+import 'package:sharingle_user_app/src/features/core/controllers/search_pickup_controller.dart';
+import 'package:sharingle_user_app/src/features/core/screens/search-pickup-location/search_pickup_location_screen.dart';
 
 class PickupSearchBox extends StatelessWidget {
   const PickupSearchBox({
@@ -11,11 +12,13 @@ class PickupSearchBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final searchController = Get.put(SearchPickupController());
     final isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     return GestureDetector(
       onTap: () {
-        Get.to(() => const MapScreen());
+        searchController.pickupPlaceList.value = [];
+        Get.to(() => const SearchPickLocationScreen());
       },
       child: Container(
         width: double.infinity,

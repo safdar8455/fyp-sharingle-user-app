@@ -141,3 +141,12 @@ const String RsFullSheetSubTitle =
     "Enter your destination in the search area above to find your location.";
 const String RsSelectLocationOnMap = "Select location on map";
 const String RsSkipDestinationStep = "Skip destination step";
+
+// Destination initial sheet
+const String RsConfirmdropoff = "Confirm dropoff";
+
+
+// Search Pickup Location Screen
+const String RsSearch = "Search";
+const String RsSearchforLocation = "Search for a location";
+const String RsNearbyLoaction = "Nearby Locations";
