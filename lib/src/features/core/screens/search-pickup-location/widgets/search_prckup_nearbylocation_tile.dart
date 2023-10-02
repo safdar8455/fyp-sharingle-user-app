@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:sharingle_user_app/src/features/core/models/save-location/save_location_model.dart';
 import 'package:sharingle_user_app/src/features/core/models/search-pickup/nearbylocationjson.dart';
+import 'package:sharingle_user_app/src/features/core/screens/save-location/save_location_screen.dart';
 
 class NearByLocationTile extends StatelessWidget {
   final NearbySearchResult nearbyPlaceList;
@@ -52,7 +55,18 @@ class NearByLocationTile extends StatelessWidget {
             ),
           ),
           SizedBox(width: 10),
-          IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.heart)),
+          IconButton(
+              onPressed: () {
+                SaveLocationModel locationModel = SaveLocationModel(
+                  placeId: nearbyPlaceList.placeId!,
+                  placeName: nearbyPlaceList.name!,
+                  placeAddress: nearbyPlaceList.vicinity!,
+                  latitude: nearbyPlaceList.latitude.toString(),
+                  longitude: nearbyPlaceList.longitude.toString(),
+                );
+                Get.to(() => SaveLocationScreen(locationModel: locationModel));
+              },
+              icon: Icon(LineAwesomeIcons.heart)),
         ],
       ),
     );

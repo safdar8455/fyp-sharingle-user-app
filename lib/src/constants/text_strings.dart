@@ -145,8 +145,18 @@ const String RsSkipDestinationStep = "Skip destination step";
 // Destination initial sheet
 const String RsConfirmdropoff = "Confirm dropoff";
 
-
 // Search Pickup Location Screen
 const String RsSearch = "Search";
 const String RsSearchforLocation = "Search for a location";
 const String RsNearbyLoaction = "Nearby Locations";
+const String RsSearchResult = "Search results";
+const String RsNoSearchResultFoundTitle = "No search results found";
+const String RsNoSearchResultFoundSubTitle =
+    "Check your spelling or search for somewhere nearby.";
+
+// Save Location Screen
+const String RsSaveLocationTitle = "Save location";
+const String RsNameYourLocation = "Name your Location (Home/Work etc.)";
+const String RsAddPickupDetails = "Add Pickup details";
+const String RsAddOtherDetails = "+ add other details";
+const String RsSave = "Save";

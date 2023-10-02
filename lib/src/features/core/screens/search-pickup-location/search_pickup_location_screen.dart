@@ -5,6 +5,8 @@ import 'package:sharingle_user_app/src/constants/sizes.dart';
 import 'package:sharingle_user_app/src/constants/text_strings.dart';
 import 'package:sharingle_user_app/src/features/core/controllers/search_pickup_controller.dart';
 import 'package:sharingle_user_app/src/features/core/screens/search-pickup-location/widgets/search_pickiup_placetile.dart';
+import 'package:sharingle_user_app/src/features/core/screens/search-pickup-location/widgets/search_pickup_location_list.dart';
+import 'package:sharingle_user_app/src/features/core/screens/search-pickup-location/widgets/search_pickup_resultnotfound.dart';
 import 'package:sharingle_user_app/src/features/core/screens/search-pickup-location/widgets/search_prckup_nearbylocation_tile.dart';
 
 class SearchPickLocationScreen extends StatelessWidget {
@@ -78,33 +80,14 @@ class SearchPickLocationScreen extends StatelessWidget {
               ),
 
               // Near by me container
-              Container(
-                padding:
-                    EdgeInsets.only(top: 10, left: RsDefaultSize, bottom: 2),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? Color(0xFFFAFAFA).withOpacity(0.2)
-                      : Color(0xFF303030).withOpacity(0.2),
-                ),
-                child: Text(
-                  RsNearbyLoaction,
-                  style: Theme.of(context).textTheme.bodyMedium?.apply(
-                        color: isDarkMode
-                            ? Color(0xFFFAFAFA).withOpacity(0.8)
-                            : Color(0xFF303030).withOpacity(0.8),
-                      ),
-                ),
-              ),
 
               Obx(() {
                 if (controller.pickupPlaceList.isNotEmpty) {
                   if (controller.isRecordNotFound.value) {
-                    return Container(
-                      child: Text("Record is not Found"),
-                    );
+                    return SearchPickupResultNotFound();
                   } else {
                     return PickupLocationList(
+                      title: RsSearchResult,
                       listTile: (context, index) {
                         return PlaceTile(
                           key: ValueKey(index),
@@ -118,6 +101,7 @@ class SearchPickLocationScreen extends StatelessWidget {
                 } else if (controller.pickupPlaceList.isEmpty ||
                     controller.isSearhFieldEmply.value == true) {
                   return PickupLocationList(
+                    title: RsNearbyLoaction,
                     itemCount: controller.nearbyLocationList.length,
                     listTile: (context, index) {
                       return NearByLocationTile(
@@ -133,35 +117,6 @@ class SearchPickLocationScreen extends StatelessWidget {
               }),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class PickupLocationList extends StatelessWidget {
-  const PickupLocationList({
-    super.key,
-    required this.itemCount,
-    required this.listTile,
-  });
-
-  final int itemCount;
-  final IndexedWidgetBuilder listTile;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-        child: ListView.separated(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          padding: EdgeInsets.all(0.0),
-          itemBuilder: listTile,
-          separatorBuilder: (BuildContext context, int index) => Divider(),
-          itemCount: itemCount,
-          physics: ClampingScrollPhysics(),
         ),
       ),
     );

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:sharingle_user_app/src/features/core/models/save-location/save_location_model.dart';
 import 'package:sharingle_user_app/src/features/core/models/search-pickup/placesjson.dart';
+import 'package:sharingle_user_app/src/features/core/screens/save-location/save_location_screen.dart';
 
 class PlaceTile extends StatelessWidget {
   final PlacesJson pickupPlaceList;
@@ -52,7 +55,18 @@ class PlaceTile extends StatelessWidget {
             ),
           ),
           SizedBox(width: 10),
-          IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.heart)),
+          IconButton(
+              onPressed: () {
+                SaveLocationModel locationModel = SaveLocationModel(
+                  placeId: pickupPlaceList.place_id!,
+                  placeName: pickupPlaceList.name!,
+                  placeAddress: pickupPlaceList.formattedAddress!,
+                  latitude: pickupPlaceList.latitude.toString(),
+                  longitude: pickupPlaceList.longitude.toString(),
+                );
+                Get.to(() => SaveLocationScreen(locationModel: locationModel));
+              },
+              icon: Icon(LineAwesomeIcons.heart)),
         ],
       ),
     );

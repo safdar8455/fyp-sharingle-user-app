@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sharingle_user_app/src/features/core/controllers/location-Assestent/method_request.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MapScreenController extends GetxController {
   final Completer<GoogleMapController> _controller =
@@ -42,6 +44,12 @@ class MapScreenController extends GetxController {
     super.onInit();
   }
 
+  Future<void> saveLatLngToSharedPreferences(LatLng latLng) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('latitude', latLng.latitude);
+    await prefs.setDouble('longitude', latLng.longitude);
+  }
+
   // Toggle the bottom sheet expansion
   void toggleSheetExpansion() {
     isExpanded.value = !isExpanded.value;
@@ -49,6 +57,43 @@ class MapScreenController extends GetxController {
       sheetPosition.value = 1.0; // Fully expand the sheet
     } else {
       sheetPosition.value = isDestinationSelectedPointer.value ? 0.3 : 0.25;
+    }
+  }
+
+  // Callback when the Google Map is Idle
+  Future<void> onCameraIdle() async {
+    CameraPosition? dPosition = destinationPosition.value;
+    CameraPosition? cPosition = currentPosition.value;
+    if (dPosition != null) {
+      Position posit = Position(
+        latitude: dPosition.target.latitude,
+        longitude: dPosition.target.longitude,
+        speedAccuracy: 0.0,
+        timestamp: DateTime.now(),
+        accuracy: 1,
+        altitude: 0.0,
+        heading: 0.0,
+        speed: 0.0,
+      );
+
+      bool isCurrentLocation = (dPosition.target.latitude.toStringAsFixed(5)) ==
+          (cPosition!.target.latitude.toStringAsFixed(5));
+
+      if (!(dPosition.target.latitude == 0) &&
+          !(dPosition.target.longitude == 0) &&
+          !isCurrentLocation) {
+        isCameraMoving.value = "false";
+        isDestinationSelectedPointer.value = true;
+
+        String address =
+            await MethodRequest.methodRequestCoordinated(Get.context!, posit);
+        destinationAddress.value = address;
+      } else {
+        isCameraMoving.value = "";
+      }
+
+      // print("Latitude: ${dPosition.target.latitude.toStringAsFixed(5)}");
+      // print("Latitude: ${cPosition.target.latitude.toStringAsFixed(5)}");
     }
   }
 
@@ -116,8 +161,8 @@ class MapScreenController extends GetxController {
   Future<CameraPosition?> determinePosition() async {
     try {
       if (!(serviceEnabled.value)) {
-        await Geolocator.isLocationServiceEnabled()
-            .whenComplete(() => serviceEnabled.value = true);
+        await Geolocator.isLocationServiceEnabled().whenComplete(() async =>
+            serviceEnabled.value = await Geolocator.isLocationServiceEnabled());
       }
 
       Position position = await Geolocator.getCurrentPosition(
@@ -129,6 +174,9 @@ class MapScreenController extends GetxController {
 
       double zoomLevel = serviceEnabled.value ? 18.4746 : 5.4746;
       LatLng latLng = LatLng(position.latitude, position.longitude);
+      
+      // Save the LatLng value in SharedPreferences
+      await saveLatLngToSharedPreferences(latLng);
       CameraPosition currentPosition =
           CameraPosition(target: latLng, zoom: zoomLevel);
 

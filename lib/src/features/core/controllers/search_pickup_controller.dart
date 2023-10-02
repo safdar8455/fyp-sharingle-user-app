@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sharingle_user_app/src/constants/text_strings.dart';
 import 'package:sharingle_user_app/src/features/core/controllers/location-Assestent/request_location.dart';
 import 'package:sharingle_user_app/src/features/core/models/search-pickup/nearbylocationjson.dart';
 import 'package:sharingle_user_app/src/features/core/models/search-pickup/pickup_address.dart';
 import 'package:sharingle_user_app/src/features/core/models/search-pickup/placesjson.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchPickupController extends GetxController {
   static SearchPickupController get instance => Get.find();
@@ -18,6 +20,16 @@ class SearchPickupController extends GetxController {
   RxList nearbyLocationList = [].obs;
   RxBool isRecordNotFound = false.obs;
   RxBool isSearhFieldEmply = true.obs;
+
+  Future<LatLng?> getSavedLatLngFromSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    double? latitude = prefs.getDouble('latitude');
+    double? longitude = prefs.getDouble('longitude');
+    if (latitude != null && longitude != null) {
+      return LatLng(latitude, longitude);
+    }
+    return null;
+  }
 
   Future<void> autoComplete(String placeAddress) async {
     if (placeAddress.length > 1) {
@@ -50,8 +62,13 @@ class SearchPickupController extends GetxController {
   }
 
   Future<void> nearbySearch() async {
+    LatLng? currentPosition = await getSavedLatLngFromSharedPreferences();
+    double latitude =
+        currentPosition != null ? currentPosition.latitude : 24.878791105158285;
+    double longitude =
+        currentPosition != null ? currentPosition.longitude : 67.05978682516574;
     final nearbySearchUrl =
-        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=24.878791105158285,67.05978682516574&radius=100000&key=$GoogleMapAPIKey";
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&radius=5000&key=$GoogleMapAPIKey";
     try {
       var res = await RequestAddress.getRequest(nearbySearchUrl);
 
@@ -73,6 +90,8 @@ class SearchPickupController extends GetxController {
       print('Error: $error');
     }
   }
+
+  
 
   Future<void> placeDetails(String placeId) async {
     try {

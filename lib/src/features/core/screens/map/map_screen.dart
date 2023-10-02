@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator_platform_interface/src/models/position.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sharingle_user_app/src/constants/image_strings.dart';
-import 'package:sharingle_user_app/src/features/core/controllers/location-Assestent/method_request.dart';
 import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
 import 'package:sharingle_user_app/src/features/core/screens/map/widgets/map_bottom_dragablesheet.dart';
 import 'package:sharingle_user_app/src/features/core/screens/map/widgets/map_topbar_widget.dart';
@@ -43,47 +41,7 @@ class MapScreen extends StatelessWidget {
                     mapController.destinationPosition.value = position;
                   }
                 },
-                onCameraIdle: () async {
-                  CameraPosition? dPosition =
-                      mapController.destinationPosition.value;
-                  CameraPosition? cPosition =
-                      mapController.currentPosition.value;
-                  if (dPosition != null) {
-                    Position posit = Position(
-                      latitude: dPosition.target.latitude,
-                      longitude: dPosition.target.longitude,
-                      speedAccuracy: 0.0,
-                      timestamp: DateTime.now(),
-                      accuracy: 1,
-                      altitude: 0.0,
-                      heading: 0.0,
-                      speed: 0.0,
-                    );
-
-                    bool isCurrentLocation =
-                        (dPosition.target.latitude.toStringAsFixed(5)) ==
-                            (cPosition!.target.latitude.toStringAsFixed(5));
-
-                    if (!(dPosition.target.latitude == 0) &&
-                        !(dPosition.target.longitude == 0) &&
-                        !isCurrentLocation) {
-                      mapController.isCameraMoving.value = "false";
-                      mapController.isDestinationSelectedPointer.value = true;
-
-                      String address =
-                          await MethodRequest.methodRequestCoordinated(
-                              context, posit);
-                      mapController.destinationAddress.value = address;
-                    } else {
-                      mapController.isCameraMoving.value = "";
-                    }
-
-                    print(
-                        "Latitude: ${dPosition.target.latitude.toStringAsFixed(5)}");
-                    print(
-                        "Latitude: ${cPosition.target.latitude.toStringAsFixed(5)}");
-                  }
-                },
+                onCameraIdle: mapController.onCameraIdle,
                 zoomControlsEnabled: false,
                 padding:
                     EdgeInsets.only(top: 120, right: 10, left: 10, bottom: 50),
