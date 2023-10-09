@@ -3,18 +3,25 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sharingle_user_app/src/constants/image_strings.dart';
 import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
+import 'package:sharingle_user_app/src/features/core/controllers/search_pickup_controller.dart';
 import 'package:sharingle_user_app/src/features/core/screens/map/widgets/map_bottom_dragablesheet.dart';
 import 'package:sharingle_user_app/src/features/core/screens/map/widgets/map_topbar_widget.dart';
 
 class MapScreen extends StatelessWidget {
-  const MapScreen({Key? key}) : super(key: key);
+  const MapScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final mapController = Get.put(MapScreenController());
+    final searchController = Get.put(SearchPickupController());
     final mediaQuery = MediaQuery.of(context);
     final isDarkMode = mediaQuery.platformBrightness == Brightness.dark;
     final size = mediaQuery.size;
+
+    final LatLng? pickupLatLng = searchController.initialPickupLatLng.value;
+    mapController.initialPickupLatLng.value = pickupLatLng;
 
     return Scaffold(
       body: Stack(
@@ -27,10 +34,8 @@ class MapScreen extends StatelessWidget {
               bottom: size.height * 0.2,
               child: GoogleMap(
                 mapType: MapType.normal,
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(24.8607, 67.0011),
-                  zoom: 11.4746,
-                ),
+                initialCameraPosition:
+                    CameraPosition(target: LatLng(24.8607, 67.0011), zoom: 14),
                 onMapCreated: mapController.onMapCreated,
                 compassEnabled: true,
                 myLocationEnabled:

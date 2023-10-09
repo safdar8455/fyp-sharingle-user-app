@@ -2,13 +2,16 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sharingle_user_app/src/constants/text_strings.dart';
 import 'package:sharingle_user_app/src/features/core/controllers/location-Assestent/request_location.dart';
+import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
 import 'package:sharingle_user_app/src/features/core/models/search-pickup/nearbylocationjson.dart';
 import 'package:sharingle_user_app/src/features/core/models/search-pickup/pickup_address.dart';
 import 'package:sharingle_user_app/src/features/core/models/search-pickup/placesjson.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sharingle_user_app/src/features/core/screens/map/map_screen.dart';
 
 class SearchPickupController extends GetxController {
   static SearchPickupController get instance => Get.find();
+  final mapController = Get.put(MapScreenController());
 
   @override
   void onInit() async {
@@ -20,6 +23,8 @@ class SearchPickupController extends GetxController {
   RxList nearbyLocationList = [].obs;
   RxBool isRecordNotFound = false.obs;
   RxBool isSearhFieldEmply = true.obs;
+  final Rx<LatLng?> initialPickupLatLng = LatLng(0, 0).obs;
+
 
   Future<LatLng?> getSavedLatLngFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -91,8 +96,6 @@ class SearchPickupController extends GetxController {
     }
   }
 
-  
-
   Future<void> placeDetails(String placeId) async {
     try {
       String detailUrl =
@@ -106,6 +109,12 @@ class SearchPickupController extends GetxController {
         pickupAddress.pName = res["result"]["name"];
         pickupAddress.latitude = res["result"]["geometry"]["location"]["lat"];
         pickupAddress.longitude = res["result"]["geometry"]["location"]["lng"];
+
+        initialPickupLatLng.value = LatLng(
+            res["result"]["geometry"]["location"]["lat"] as double,
+            res["result"]["geometry"]["location"]["lng"] as double);
+
+        Get.to(() => const MapScreen());
       } else {
         // Handle API error or no results case
         print('Failed to get predictions');

@@ -21,6 +21,8 @@ class MapScreenController extends GetxController {
   final Rx<CameraPosition?> currentPosition =
       CameraPosition(target: LatLng(0, 0), zoom: 12.0).obs;
 
+  final Rx<LatLng?> initialPickupLatLng = LatLng(0, 0).obs;
+
   // Add a flag to track whether the camera is moving
   final RxString isCameraMoving = "".obs;
   final RxString destinationAddress = "".obs;
@@ -111,6 +113,19 @@ class MapScreenController extends GetxController {
       _controller.complete(controller);
     }
 
+    if (initialPickupLatLng.value != LatLng(0, 0)) {
+      // Set a custom default location if determining the position fails
+      final InitialPickupPosition = CameraPosition(
+        target: initialPickupLatLng.value!, // Karachi coordinates
+        zoom: 18.0,
+      );
+      destinationPosition.value = InitialPickupPosition;
+      currentPosition.value = InitialPickupPosition;
+
+      controller
+          .animateCamera(CameraUpdate.newCameraPosition(InitialPickupPosition));
+    }
+
     if (currentLocation) {
       final initialPosition = await determinePosition();
       if (initialPosition != null) {
@@ -122,7 +137,7 @@ class MapScreenController extends GetxController {
         // Set a custom default location if determining the position fails
         final customDefaultPosition = CameraPosition(
           target: LatLng(24.8607, 67.0011), // Karachi coordinates
-          zoom: 12.0, // Adjust the zoom level as needed
+          zoom: 12.0,
         );
         destinationPosition.value = customDefaultPosition;
         controller.animateCamera(
@@ -174,7 +189,7 @@ class MapScreenController extends GetxController {
 
       double zoomLevel = serviceEnabled.value ? 18.4746 : 5.4746;
       LatLng latLng = LatLng(position.latitude, position.longitude);
-      
+
       // Save the LatLng value in SharedPreferences
       await saveLatLngToSharedPreferences(latLng);
       CameraPosition currentPosition =
@@ -186,4 +201,6 @@ class MapScreenController extends GetxController {
       return null;
     }
   }
+
+  
 }
