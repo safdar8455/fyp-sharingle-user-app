@@ -6,9 +6,7 @@ import 'package:sharingle_user_app/src/constants/sizes.dart';
 import 'package:sharingle_user_app/src/constants/text_strings.dart';
 import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
 import 'package:sharingle_user_app/src/features/core/controllers/search_destination_controller.dart';
-import 'package:sharingle_user_app/src/features/core/models/save-location/save_location_model.dart';
 import 'package:sharingle_user_app/src/features/core/models/search-pickup/placesjson.dart';
-import 'package:sharingle_user_app/src/features/core/screens/save-location/save_location_screen.dart';
 
 class DestinationContainer extends StatelessWidget {
   const DestinationContainer({
@@ -104,36 +102,22 @@ class DestinationContainer extends StatelessWidget {
             ),
             Obx(() {
               if (controller.isRecordNotFound.value) {
-                return Container(child: Text("Record is not found"));
-              } else if (controller.destinationPlaceList.isNotEmpty) {
-                return Expanded(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                    child: ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.all(0.0),
-                      itemBuilder: (context, index) {
-                        return DestinationPlaceTile(
-                          key: ValueKey(index),
-                          destinationPlaceList:
-                              controller.destinationPlaceList[index],
-                          onPlaceSelected: (p0) {},
-                        );
-                      },
-                      itemCount: controller.destinationPlaceList.length,
-                      physics: ClampingScrollPhysics(),
-                      separatorBuilder: (context, index) {
-                        return SizedBox(
-                            height:
-                                5); // Add a separator between list items if needed
-                      },
-                    ),
-                  ),
+                // Search Location is not Found
+                return SuggestionContainer(
+                  suggestionIcon: LineAwesomeIcons.exclamation_triangle,
+                  suggestionTitle: RsFullSheetErrorTitle,
+                  suggestionSubTitle: RsFullSheetErrorSubTitle,
                 );
+              } else if (controller.destinationPlaceList.isNotEmpty) {
+                // Search Location Result
+                return SearchResult();
               } else if (controller.isSearhFieldEmply.value == true) {
-                return SuggestionContainer();
+                // Initially suggestion Content
+                return SuggestionContainer(
+                  suggestionIcon: LineAwesomeIcons.search,
+                  suggestionTitle: RsFullSheetTitle,
+                  suggestionSubTitle: RsFullSheetSubTitle,
+                );
               } else {
                 return Container();
               }
@@ -145,10 +129,53 @@ class DestinationContainer extends StatelessWidget {
   }
 }
 
+class SearchResult extends StatelessWidget {
+  const SearchResult({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.put(SearchDestinationController());
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+        child: ListView.separated(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          padding: EdgeInsets.all(0.0),
+          itemBuilder: (context, index) {
+            return DestinationPlaceTile(
+              key: ValueKey(index),
+              destinationPlaceList: controller.destinationPlaceList[index],
+              onPlaceSelected: (p0) {},
+            );
+          },
+          itemCount: controller.destinationPlaceList.length,
+          physics: ClampingScrollPhysics(),
+          separatorBuilder: (context, index) {
+            return SizedBox(
+                height: 5); // Add a separator between list items if needed
+          },
+        ),
+      ),
+    );
+  }
+}
+
 class SuggestionContainer extends StatelessWidget {
   const SuggestionContainer({
     super.key,
+    required this.suggestionIcon,
+    required this.suggestionTitle,
+    required this.suggestionSubTitle,
+
   });
+
+  final IconData suggestionIcon;
+  final String suggestionTitle;
+  final String suggestionSubTitle;
+
 
   @override
   Widget build(BuildContext context) {
@@ -171,17 +198,17 @@ class SuggestionContainer extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: Colors.grey.withOpacity(0.2),
                   ),
-                  child: Icon(LineAwesomeIcons.search),
+                  child: Icon(suggestionIcon),
                 ),
                 SizedBox(height: 20),
                 Text(
-                  RsFullSheetTitle,
+                  suggestionTitle,
                   style: Theme.of(context).textTheme.headlineMedium,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 5),
                 Text(
-                  RsFullSheetSubTitle,
+                  suggestionSubTitle,
                   style: Theme.of(context).textTheme.bodyLarge,
                   textAlign: TextAlign.center,
                 ),
@@ -232,6 +259,7 @@ class DestinationPlaceTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isDarkMode = mediaQuery.platformBrightness == Brightness.dark;
+    final mapController = Get.put(MapScreenController());
     if (destinationPlaceList.formattedAddress == null) {
       // Return an empty container or a placeholder widget when data is null
       return Container();
@@ -286,14 +314,8 @@ class DestinationPlaceTile extends StatelessWidget {
           SizedBox(width: 10),
           IconButton(
               onPressed: () {
-                SaveLocationModel locationModel = SaveLocationModel(
-                  placeId: destinationPlaceList.place_id!,
-                  placeName: destinationPlaceList.name!,
-                  placeAddress: destinationPlaceList.formattedAddress!,
-                  latitude: destinationPlaceList.latitude.toString(),
-                  longitude: destinationPlaceList.longitude.toString(),
-                );
-                Get.to(() => SaveLocationScreen(locationModel: locationModel));
+                mapController.saveLocation(destinationPlaceList.place_id!);
+                
               },
               icon: Icon(LineAwesomeIcons.heart)),
         ],

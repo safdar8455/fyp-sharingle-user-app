@@ -139,6 +139,9 @@ const String RsEnterYourDestionation = "Enter your destination";
 const String RsFullSheetTitle = "What do you want to go?";
 const String RsFullSheetSubTitle =
     "Enter your destination in the search area above to find your location.";
+const String RsFullSheetErrorTitle = "No location found?";
+const String RsFullSheetErrorSubTitle =
+    "Please check your spelling or select somewhere nearby.";
 const String RsSelectLocationOnMap = "Select location on map";
 const String RsSkipDestinationStep = "Skip destination step";
 

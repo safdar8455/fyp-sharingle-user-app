@@ -3,8 +3,12 @@ import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sharingle_user_app/src/features/core/controllers/location-Assestent/method_request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sharingle_user_app/src/constants/text_strings.dart';
+import 'package:sharingle_user_app/src/features/core/controllers/location-Assestent/request_location.dart';
+import 'package:sharingle_user_app/src/features/core/models/save-location/save_location_model.dart';
+import 'package:sharingle_user_app/src/features/core/models/search-destination/select_destination_onmap.dart';
+import 'package:sharingle_user_app/src/features/core/screens/save-location/save_location_screen.dart';
 
 class MapScreenController extends GetxController {
   final Completer<GoogleMapController> _controller =
@@ -28,6 +32,8 @@ class MapScreenController extends GetxController {
   final RxString destinationAddress = "".obs;
   final RxBool isDestinationSelectedPointer = false.obs;
   final RxBool isDestinationSelected = false.obs;
+
+  RxList destinationDetailList = [].obs;
 
   @override
   void onInit() async {
@@ -77,6 +83,7 @@ class MapScreenController extends GetxController {
         heading: 0.0,
         speed: 0.0,
       );
+      destinationSelectOnMap(posit);
 
       bool isCurrentLocation = (dPosition.target.latitude.toStringAsFixed(5)) ==
           (cPosition!.target.latitude.toStringAsFixed(5));
@@ -87,9 +94,7 @@ class MapScreenController extends GetxController {
         isCameraMoving.value = "false";
         isDestinationSelectedPointer.value = true;
 
-        String address =
-            await MethodRequest.methodRequestCoordinated(Get.context!, posit);
-        destinationAddress.value = address;
+        destinationSelectOnMap(posit);
       } else {
         isCameraMoving.value = "";
       }
@@ -202,5 +207,60 @@ class MapScreenController extends GetxController {
     }
   }
 
-  
+  Future<void> destinationSelectOnMap(Position posit) async {
+    String url =
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${posit.latitude},${posit.longitude}&key=$GoogleMapAPIKey";
+    try {
+      var res = await RequestAddress.getRequest(url);
+
+      if (res.containsKey('status') && res['status'] == 'OK') {
+        // Parse the predictions from the response
+        List<dynamic> result = res['results'];
+
+        // Convert predictions into a list of Map<String, dynamic>
+        List<Map<String, dynamic>> resultList =
+            result.map((result) => result as Map<String, dynamic>).toList();
+
+        List<SelectDestinationOnMap> destinationList =
+            resultList.map((e) => SelectDestinationOnMap.fromJson(e)).toList();
+        destinationDetailList.value = destinationList;
+      } else {
+        print('Failed to get get selected destination results');
+      }
+    } catch (error) {
+      print('Error: $error');
+    }
+  }
+
+  Future<void> saveLocation(String placeId) async {
+    try {
+      String detailUrl =
+          "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=${GoogleMapAPIKey}";
+
+      var res = await RequestAddress.getRequest(detailUrl);
+
+      if (res.containsKey('status') && res['status'] == 'OK') {
+        // Convert double values to strings using toString()
+        String latitude =
+            res["result"]["geometry"]["location"]["lat"].toString();
+        String longitude =
+            res["result"]["geometry"]["location"]["lng"].toString();
+
+        SaveLocationModel locationModel = SaveLocationModel(
+          placeId: placeId,
+          placeName: res["result"]["name"],
+          placeAddress: res["result"]["formatted_address"],
+          latitude: latitude,
+          longitude: longitude,
+        );
+        Get.to(() => SaveLocationScreen(locationModel: locationModel));
+      } else {
+        // Handle API error or no results case
+        print('Failed to get predictions');
+      }
+    } catch (error) {
+      // Handle exceptions here
+      print('Error: $error');
+    }
+  }
 }

@@ -58,20 +58,39 @@ class SearchPickLocationScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 10),
-                    TextField(
-                      onChanged: (value) {
-                        if (value.isEmpty) {
-                          // If the text field is empty, clear the pickupPlaceList
-                          controller.pickupPlaceList.value = [];
-                        } else {
-                          controller.autoComplete(value);
-                        }
-                      },
-                      decoration: InputDecoration(
-                        hintText: RsSearchforLocation,
-                        prefixIcon: Icon(LineAwesomeIcons.search),
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    Obx(
+                      () => TextField(
+                        controller: controller.searchTextField,
+                        onChanged: (value) {
+                          if (value.isEmpty) {
+                            // If the text field is empty, clear the pickupPlaceList
+                            controller.pickupPlaceList.value = [];
+                            controller.isSearhFieldEmply.value = true;
+                          } else {
+                            controller.autoComplete(value);
+                            controller.isSearhFieldEmply.value = false;
+                          }
+                        },
+                        decoration: InputDecoration(
+                          hintText: RsSearchforLocation,
+                          prefixIcon: Icon(LineAwesomeIcons.search),
+                          suffixIcon: (controller.isSearhFieldEmply == true)
+                              ? null
+                              : IconButton(
+                                  onPressed: () {
+                                    controller.searchTextField.clear();
+                                    controller.pickupPlaceList.value = [];
+                                    controller.isSearhFieldEmply.value = true;
+                                  },
+                                  icon: Icon(
+                                    LineAwesomeIcons.times,
+                                    color: isDarkMode
+                                        ? Color(0xFFFAFAFA)
+                                        : Color(0xFF303030),
+                                  )),
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        ),
                       ),
                     ),
                     SizedBox(height: 20),

@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sharingle_user_app/src/constants/text_strings.dart';
@@ -25,6 +26,7 @@ class SearchPickupController extends GetxController {
   RxBool isSearhFieldEmply = true.obs;
   final Rx<LatLng?> initialPickupLatLng = LatLng(0, 0).obs;
 
+  TextEditingController searchTextField = TextEditingController();
 
   Future<LatLng?> getSavedLatLngFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -7,6 +7,7 @@ import 'package:sharingle_user_app/src/constants/colors.dart';
 import 'package:sharingle_user_app/src/constants/sizes.dart';
 import 'package:sharingle_user_app/src/constants/text_strings.dart';
 import 'package:sharingle_user_app/src/features/core/controllers/map_screen_controller.dart';
+import 'package:sharingle_user_app/src/features/core/models/search-destination/select_destination_onmap.dart';
 
 class InitialContainer extends StatelessWidget {
   const InitialContainer({
@@ -82,8 +83,11 @@ class SelectedDestinationAddress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mapController = Get.put(MapScreenController());
-    return Obx(
-      () => Container(
+    return Obx(() {
+      SelectDestinationOnMap destinationOnMap =
+          mapController.destinationDetailList[0];
+
+      return Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,13 +110,13 @@ class SelectedDestinationAddress extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "Near ${mapController.destinationAddress.value}",
+                        "Near ${destinationOnMap.placeName}",
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       SizedBox(height: 5),
                       Text(
-                        mapController.destinationAddress.value,
+                        destinationOnMap.placeAddress!,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall,
@@ -122,11 +126,14 @@ class SelectedDestinationAddress extends StatelessWidget {
                 ),
                 SizedBox(width: 10),
                 IconButton(
-                    onPressed: () {}, icon: Icon(LineAwesomeIcons.heart)),
+                    onPressed: () {
+                      mapController.saveLocation(destinationOnMap.placeId!);
+                    },
+                    icon: Icon(LineAwesomeIcons.heart)),
               ],
             ),
             SizedBox(height: 20),
-            
+
             // Confirm dropoff button
             SizedBox(
               width: double.infinity,
@@ -140,8 +147,8 @@ class SelectedDestinationAddress extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
